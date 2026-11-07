@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus Running Ambassador Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..700&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f8ff;
+    --surface:#ffffff;
+    --ink:#07183a;
+    --ink-2:#1b2b4d;
+    --ink-3:#4e5c76;
+    --ink-4:#7b88a0;
+    --line:#dfe8fa;
+    --line-2:#eef3fd;
+    --accent:#0047ff;
+    --accent-2:#002fb3;
+    --accent-3:#6a8eff;
+    --accent-soft:#e9efff;
+    --accent-glow:rgba(0,71,255,.14);
+    --green:#0a8a4a;
+    --radius:14px;
+    --radius-lg:20px;
+    --shadow-sm:0 1px 2px rgba(7,24,58,.05);
+    --shadow-md:0 4px 14px rgba(7,24,58,.07), 0 1px 2px rgba(7,24,58,.04);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Manrope',-apple-system,system-ui,sans-serif;
+    color:var(--ink);background:var(--bg);line-height:1.55;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;min-height:100vh;
+  }
+  body::after{
+    content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(ellipse 55% 45% at 10% 6%, rgba(0,71,255,.10), transparent 65%),
+      radial-gradient(ellipse 50% 55% at 92% 10%, rgba(106,142,255,.16), transparent 65%),
+      radial-gradient(ellipse 60% 50% at 88% 90%, rgba(0,71,255,.08), transparent 65%),
+      radial-gradient(ellipse 45% 50% at 6% 94%, rgba(160,190,255,.16), transparent 65%);
+  }
+  body::before{
+    content:'';position:fixed;inset:0;pointer-events:none;z-index:1;
+    background-image:radial-gradient(circle at 1px 1px, rgba(7,24,58,.06) 1px, transparent 0);
+    background-size:26px 26px;
+    mask-image:radial-gradient(ellipse at center, black 35%, transparent 80%);
+    -webkit-mask-image:radial-gradient(ellipse at center, black 35%, transparent 80%);
+  }
+  h1,h2,h3,h4{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-.025em;line-height:1.1;color:var(--ink);font-optical-sizing:auto}
+
+  nav.top{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);
+    background:rgba(244,248,255,.86);border-bottom:1px solid var(--line);
+  }
+  .nav-inner{max-width:1180px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-.01em;font-size:15px}
+  .brand-mark{
+    width:26px;height:26px;border-radius:7px;
+    background:linear-gradient(135deg,var(--accent) 0%,var(--accent-3) 100%);
+    display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px;
+    box-shadow:0 2px 8px var(--accent-glow);
+  }
+  .nav-links{display:flex;gap:4px;flex-wrap:wrap}
+  .nav-links a{color:var(--ink-3);text-decoration:none;font-size:13px;padding:7px 12px;border-radius:8px;transition:all .2s}
+  .nav-links a:hover{color:var(--accent);background:var(--accent-soft)}
+
+  main{position:relative;z-index:2}
+  section{max-width:1180px;margin:0 auto;padding:76px 28px 24px;scroll-margin-top:64px}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;
+    text-transform:uppercase;letter-spacing:.12em;color:var(--accent);
+    padding:5px 10px;border-radius:999px;background:var(--accent-soft);
+    border:1px solid #d3e0ff;margin-bottom:16px;
+  }
+  .eyebrow::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent)}
+  h2.section-title{font-size:clamp(30px,4.2vw,46px);margin-bottom:12px}
+  h2.section-title .accent{color:var(--accent)}
+  .section-sub{color:var(--ink-3);max-width:660px;font-size:15.5px;line-height:1.6}
+  .section-head{margin-bottom:38px}
+
+  /* HERO */
+  .hero{padding-top:54px;padding-bottom:38px;display:grid;grid-template-columns:1.45fr 1fr;gap:50px;align-items:start}
+  .hero-tag{
+    display:inline-flex;align-items:center;gap:10px;font-size:12px;
+    font-family:'JetBrains Mono',monospace;font-weight:500;color:var(--ink-3);
+    padding:7px 13px;border-radius:999px;background:var(--surface);
+    border:1px solid var(--line);box-shadow:var(--shadow-sm);margin-bottom:20px;
+  }
+  .hero-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-glow)}
+  .hero h1{font-size:clamp(40px,5.8vw,74px);font-weight:500;letter-spacing:-.035em;line-height:1;margin-bottom:22px}
+  .hero h1 .hero-blue{color:var(--accent);font-weight:500}
+  .hero h1 .hero-italic{font-style:italic;font-weight:400;letter-spacing:-.03em}
+  .hero p.lead{font-size:17px;line-height:1.6;color:var(--ink-3);max-width:560px;margin-bottom:28px}
+  .hero p.lead strong{color:var(--ink);font-weight:600}
+  .info-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .info-bar .item{background:var(--surface);padding:14px 16px}
+  .info-bar .label{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;color:var(--ink-4);letter-spacing:.1em;margin-bottom:4px}
+  .info-bar .value{font-size:13.5px;font-weight:600;color:var(--ink)}
+
+  .kpi-stack{display:flex;flex-direction:column;gap:12px}
+  .kpi-card{
+    position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;
+    padding:19px 23px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;
+    transition:all .35s cubic-bezier(.2,.8,.2,1);box-shadow:var(--shadow-sm);overflow:hidden;
+  }
+  .kpi-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);transform:scaleY(0);transform-origin:bottom;transition:transform .4s ease}
+  .kpi-card:hover{transform:translateY(-2px);border-color:#bed0ff;box-shadow:var(--shadow-md)}
+  .kpi-card:hover::before{transform:scaleY(1);transform-origin:top}
+  .kpi-card .num{font-family:'Fraunces',serif;font-size:37px;font-weight:500;letter-spacing:-.035em;line-height:1;display:flex;align-items:baseline}
+  .kpi-card .num.blue{color:var(--accent)}
+  .kpi-card .num .unit{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--ink-4);margin-left:6px;letter-spacing:.1em;text-transform:uppercase;align-self:flex-start;margin-top:5px}
+  .kpi-card .lbl{font-size:10.5px;color:var(--ink-3);line-height:1.4;font-family:'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;font-weight:500}
+  .kpi-card .lbl strong{display:block;color:var(--ink);font-weight:600;font-size:11px;letter-spacing:.14em}
+
+  /* CHALLENGE → INITIATIVE */
+  .ci-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+  .ci-card{border-radius:var(--radius-lg);padding:32px 34px;position:relative;overflow:hidden;display:flex;flex-direction:column}
+  .ci-card.challenge{background:var(--surface);border:1px solid var(--line)}
+  .ci-card.answer{background:linear-gradient(135deg,#e7eeff 0%,var(--surface) 65%,#f6f9ff 100%);border:1px solid #c9daff}
+  .ci-card.answer::before{content:'';position:absolute;top:0;right:0;width:240px;height:240px;background:radial-gradient(circle at top right,var(--accent-glow),transparent 70%);pointer-events:none}
+  .ci-tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;margin-bottom:14px;position:relative;z-index:1}
+  .ci-card.challenge .ci-tag{color:var(--ink-4)}
+  .ci-card.answer .ci-tag{color:var(--accent)}
+  .ci-card h3{font-family:'Fraunces',serif;font-size:clamp(21px,2.3vw,27px);font-weight:500;letter-spacing:-.02em;line-height:1.3;margin-bottom:14px;position:relative;z-index:1}
+  .ci-card h3 .hl{background:linear-gradient(180deg,transparent 60%,var(--accent-soft) 60%);font-style:italic}
+  .ci-list{list-style:none;display:flex;flex-direction:column;gap:10px;position:relative;z-index:1}
+  .ci-list li{display:flex;gap:11px;align-items:flex-start;font-size:14.2px;color:var(--ink-3);line-height:1.55}
+  .ci-list li::before{content:'';flex-shrink:0;width:5px;height:5px;border-radius:50%;background:var(--accent);margin-top:8px}
+  .ci-list li b{color:var(--ink);font-weight:600}
+
+  /* FLOW */
+  .flow-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+  .flow-card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:21px;transition:all .3s}
+  .flow-card:hover{transform:translateY(-2px);border-color:#bed0ff;box-shadow:var(--shadow-md)}
+  .flow-card .op-num{position:absolute;top:13px;right:16px;font-family:'Fraunces',serif;font-size:32px;font-weight:500;color:var(--accent);opacity:.16;letter-spacing:-.03em;line-height:1}
+  .flow-card h4{font-size:15.5px;font-weight:600;letter-spacing:-.015em;margin-bottom:7px;line-height:1.3;padding-right:26px}
+  .flow-card p{font-size:12.8px;color:var(--ink-3);line-height:1.5}
+  .flow-card .stat{display:inline-block;margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:4px 9px;border-radius:6px;border:1px solid #d3e0ff}
+
+  .pilot-note{
+    margin-top:22px;padding:22px 26px;border-radius:var(--radius-lg);
+    background:linear-gradient(135deg,#e7eeff 0%,var(--surface) 70%);border:1px solid #c9daff;
+    display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;
+  }
+  .pilot-note .pn-num{font-family:'Fraunces',serif;font-size:46px;font-weight:500;letter-spacing:-.035em;color:var(--accent);line-height:1}
+  .pilot-note p{font-size:14.5px;color:var(--ink-3);line-height:1.6}
+  .pilot-note p b{color:var(--ink);font-weight:600}
+
+  /* ROLE */
+  .resp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+  .resp-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;transition:all .3s}
+  .resp-card:hover{border-color:#bed0ff;box-shadow:var(--shadow-md);transform:translateY(-2px)}
+  .resp-card .r-icon{width:38px;height:38px;border-radius:11px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;margin-bottom:13px}
+  .resp-card .r-tag{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-4);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px}
+  .resp-card h4{font-size:16.5px;font-weight:600;letter-spacing:-.015em;margin-bottom:10px;line-height:1.25}
+  .resp-card ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+  .resp-card li{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--ink-3);line-height:1.5}
+  .resp-card li::before{content:'';flex-shrink:0;width:4px;height:4px;border-radius:50%;background:var(--accent);margin-top:8px}
+
+  /* RESULTS */
+  .res-summary{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;margin-bottom:24px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .res-summary .item{background:linear-gradient(180deg,#f8fbff 0%,var(--surface) 100%);padding:21px 17px;display:flex;flex-direction:column;gap:6px;transition:background .3s}
+  .res-summary .item:hover{background:#eef4ff}
+  .res-summary .item .v{font-family:'Fraunces',serif;font-size:27px;font-weight:500;letter-spacing:-.025em;line-height:1}
+  .res-summary .item .v.blue{color:var(--accent)}
+  .res-summary .item .l{font-size:10.5px;color:var(--ink-4);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
+
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:26px 30px}
+  .split-body{display:grid;grid-template-columns:auto 1fr;gap:42px;align-items:center}
+  .panel .p-title{font-size:13px;font-weight:600;margin-bottom:4px}
+  .panel .p-sub{font-size:11.5px;color:var(--ink-4);margin-bottom:20px;font-family:'JetBrains Mono',monospace}
+  .donut-wrap{display:flex;align-items:center;gap:20px}
+  .donut-legend{display:flex;flex-direction:column;gap:11px;flex:1}
+  .donut-legend .lg-item{display:flex;align-items:center;gap:10px;font-size:13px}
+  .donut-legend .lg-item .sw{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+  .donut-legend .lg-item .lg-name{flex:1;color:var(--ink-2);font-weight:600}
+  .donut-legend .lg-item .lg-pct{font-family:'JetBrains Mono',monospace;color:var(--ink-3);font-size:11.5px}
+  .donut-note{font-size:14.5px;color:var(--ink-3);line-height:1.65;max-width:600px}
+  .donut-note b{color:var(--ink)}
+
+  .callout{margin-top:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+  .callout-card{background:linear-gradient(135deg,#eef3ff 0%,var(--surface) 100%);border:1px solid #d3e0ff;border-radius:var(--radius);padding:21px 23px}
+  .callout-card .c-num{font-family:'Fraunces',serif;font-size:29px;font-weight:500;letter-spacing:-.03em;color:var(--accent);line-height:1;margin-bottom:8px}
+  .callout-card p{font-size:13px;color:var(--ink-3);line-height:1.55}
+  .callout-card p b{color:var(--ink);font-weight:600}
+
+  /* SKILLS */
+  .skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+  .skill-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:23px 25px;transition:all .3s;position:relative;overflow:hidden}
+  .skill-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);transform:scaleY(0);transform-origin:bottom;transition:transform .4s ease}
+  .skill-card:hover{border-color:#bed0ff;box-shadow:var(--shadow-md)}
+  .skill-card:hover::before{transform:scaleY(1);transform-origin:top}
+  .skill-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .skill-ico{width:33px;height:33px;border-radius:9px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex-shrink:0}
+  .skill-card h4{font-size:16.5px;font-weight:600;letter-spacing:-.015em;line-height:1.25}
+  .skill-card p{font-size:13.3px;color:var(--ink-3);line-height:1.6}
+  .skill-card .evidence{margin-top:11px;padding-top:11px;border-top:1px solid var(--line-2);font-size:11.5px;color:var(--ink-4);font-family:'JetBrains Mono',monospace;line-height:1.5}
+  .skill-card .evidence b{color:var(--accent);font-weight:600}
+
+  /* THANK YOU */
+  .thank-you{
+    margin-top:50px;padding:80px 28px 88px;text-align:center;border-top:1px solid var(--line);
+    background:radial-gradient(ellipse 800px 400px at 50% 0%,var(--accent-glow),transparent 60%),var(--surface);
+    position:relative;z-index:2;
+  }
+  .thank-you .ty-tag{
+    display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;
+    font-size:11px;font-weight:500;color:var(--accent);text-transform:uppercase;letter-spacing:.14em;
+    padding:6px 12px;border-radius:999px;background:var(--accent-soft);border:1px solid #d3e0ff;margin-bottom:20px;
+  }
+  .thank-you .ty-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent)}
+  .thank-you h2{font-weight:500;font-size:clamp(40px,6vw,74px);letter-spacing:-.035em;line-height:1;margin-bottom:18px}
+  .thank-you h2 .ty-italic{font-style:italic;color:var(--accent);font-weight:400}
+  .thank-you p{font-size:16px;color:var(--ink-3);max-width:560px;margin:0 auto 30px;line-height:1.6}
+  .ty-meta{display:inline-flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:center;padding:14px 24px;background:var(--surface);border:1px solid var(--line);border-radius:999px;box-shadow:var(--shadow-sm)}
+  .ty-meta .item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-3)}
+  .ty-meta .item strong{color:var(--ink);font-weight:600}
+  .ty-meta .divider{width:1px;height:14px;background:var(--line)}
+
+  footer{border-top:1px solid var(--line);padding:22px 28px;text-align:center;color:var(--ink-4);font-size:12px;background:var(--surface);position:relative;z-index:2;font-family:'JetBrains Mono',monospace}
+  footer .ft-brand{font-weight:600;color:var(--ink);font-family:'Fraunces',serif;font-size:14px}
+
+  .fade-up{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1)}
+  .fade-up.in{opacity:1;transform:none}
+  .fade-up.delay-1{transition-delay:.08s}
+  .fade-up.delay-2{transition-delay:.16s}
+  .fade-up.delay-3{transition-delay:.24s}
+  .fade-up.delay-4{transition-delay:.32s}
+
+  @media (max-width:1050px){
+    .res-summary{grid-template-columns:repeat(3,1fr)}
+    .flow-grid,.resp-grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:860px){
+    .hero,.ci-grid,.skills-grid{grid-template-columns:1fr;gap:22px}
+    .split-body{grid-template-columns:1fr;gap:22px}
+    .res-summary{grid-template-columns:repeat(2,1fr)}
+    .flow-grid,.resp-grid,.callout{grid-template-columns:1fr}
+    .pilot-note{grid-template-columns:1fr;gap:12px}
+    .donut-wrap{flex-direction:column;align-items:flex-start}
+    nav.top .nav-links{display:none}
+    section{padding:56px 20px 20px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="brand-mark">UR</div>
+      <span>Campus Running Ambassador</span>
+    </div>
+    <div class="nav-links">
+      <a href="#challenge">Challenge</a>
+      <a href="#initiative">Initiative</a>
+      <a href="#role">My Role</a>
+      <a href="#results">Results</a>
+      <a href="#skills">Skills</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero">
+    <div>
+      <div class="hero-tag fade-up"><span class="dot"></span> First ambassador program at UpRace</div>
+      <h1 class="fade-up delay-1">
+        <span class="hero-blue">Campus Running<br>Ambassador</span><br>
+        <span class="hero-italic">Initiative.</span>
+      </h1>
+      <p class="lead fade-up delay-2">
+        An initiative I proposed and ran end-to-end: recruit student runners to carry a national
+        charity running campaign in their own voice. Ten ambassadors, <strong>118K organic views</strong>,
+        <strong>zero paid spend</strong>.
+      </p>
+      <div class="info-bar fade-up delay-3">
+        <div class="item">
+          <div class="label">Duration</div>
+          <div class="value">23-day campaign</div>
+        </div>
+        <div class="item">
+          <div class="label">Scope</div>
+          <div class="value">10 ambassadors · 4 campuses</div>
+        </div>
+        <div class="item">
+          <div class="label">My role</div>
+          <div class="value">Initiator &amp; Operations Lead</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-stack">
+      <div class="kpi-card fade-up delay-1">
+        <div class="num blue"><span data-count="118053">0</span></div>
+        <div class="lbl"><strong>Organic views</strong>no paid amplification</div>
+      </div>
+      <div class="kpi-card fade-up delay-2">
+        <div class="num"><span data-count="6.89" data-decimals="2">0</span>%</div>
+        <div class="lbl"><strong>Engagement rate</strong>vs 1–3% social benchmark</div>
+      </div>
+      <div class="kpi-card fade-up delay-3">
+        <div class="num"><span data-count="100">0</span>%</div>
+        <div class="lbl"><strong>Recruitment rate</strong>10 of 10 students said yes</div>
+      </div>
+      <div class="kpi-card fade-up delay-4">
+        <div class="num"><span data-count="56">0</span><span class="unit">posts</span></div>
+        <div class="lbl"><strong>Content pieces</strong>created by ambassadors</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CHALLENGE → INITIATIVE ============ -->
+  <section id="challenge">
+    <div class="section-head fade-up">
+      <span class="eyebrow">01 · The problem</span>
+      <h2 class="section-title">The challenge, and <span class="accent">what I proposed</span></h2>
+    </div>
+
+    <div class="ci-grid">
+      <div class="ci-card challenge fade-up">
+        <div class="ci-tag">The challenge</div>
+        <h3>Students scrolled past everything the brand published.</h3>
+        <ul class="ci-list">
+          <li><b>Reach gap.</b> Owned channels spoke to people who already knew the campaign — not the students it needed to convert.</li>
+          <li><b>Credibility gap.</b> Running intimidates newcomers, and polished brand content made the barrier feel higher, not lower.</li>
+          <li><b>Campus gap.</b> Four university events needed on-the-ground presence a central team could not create from outside.</li>
+        </ul>
+      </div>
+
+      <div class="ci-card answer fade-up delay-1">
+        <div class="ci-tag">The initiative</div>
+        <h3>Put the message in the hands of <span class="hl">students other students already follow.</span></h3>
+        <ul class="ci-list">
+          <li><b>New program, no precedent.</b> The organisation had never run an ambassador layer — there was no playbook, roster or budget line to inherit.</li>
+          <li><b>Scouted, not advertised.</b> Each candidate was sourced individually against a fit profile, then approached directly.</li>
+          <li><b>Their format, their voice.</b> Ambassadors kept full creative control; the program supplied direction, not scripts.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INITIATIVE / EXECUTION ============ -->
+  <section id="initiative">
+    <div class="section-head fade-up">
+      <span class="eyebrow">02 · Execution</span>
+      <h2 class="section-title">Scouting as a <span class="accent">live pilot</span></h2>
+      <p class="section-sub">
+        The outreach doubled as a demand test. If students were not genuinely interested in running,
+        the program would stall at recruitment — so the first invites were the experiment.
+      </p>
+    </div>
+
+    <div class="pilot-note fade-up">
+      <div class="pn-num">10/10</div>
+      <p>
+        <b>Every student approached accepted.</b> The pilot answered the open question immediately:
+        appetite for running activities among students was far higher than assumed. That signal
+        justified scaling the program from a test into a full campaign track — and engagement stayed
+        positive across every activity that followed.
+      </p>
+    </div>
+
+    <div class="flow-grid">
+      <div class="flow-card fade-up">
+        <div class="op-num">01</div>
+        <h4>Scout &amp; recruit</h4>
+        <p>Sourced candidates campus by campus against a defined fit profile, then ran direct outreach.</p>
+        <span class="stat">10/10 accepted</span>
+      </div>
+      <div class="flow-card fade-up delay-1">
+        <div class="op-num">02</div>
+        <h4>Onboard &amp; equip</h4>
+        <p>Welcome kit delivery, program orientation, timeline and posting cadence alignment.</p>
+        <span class="stat">10 onboarded</span>
+      </div>
+      <div class="flow-card fade-up delay-2">
+        <div class="op-num">03</div>
+        <h4>Run the campaign</h4>
+        <p>Day-to-day coordination across a 23-day window — scheduling, follow-ups, issue handling.</p>
+        <span class="stat">23 days live</span>
+      </div>
+      <div class="flow-card fade-up delay-3">
+        <div class="op-num">04</div>
+        <h4>Activate on campus</h4>
+        <p>Anchored ambassador presence and content capture at each university event and the finale.</p>
+        <span class="stat">4 campus events</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ROLE ============ -->
+  <section id="role">
+    <div class="section-head fade-up">
+      <span class="eyebrow">03 · My role</span>
+      <h2 class="section-title">What I <span class="accent">owned</span></h2>
+      <p class="section-sub">
+        I originated the initiative and ran its operations. Content direction and performance
+        measurement sat with other functions.
+      </p>
+    </div>
+
+    <div class="resp-grid">
+      <div class="resp-card fade-up">
+        <div class="r-icon"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 2.2v3M10 15v2.8M17.8 10H15M5 10H2.2M15.5 4.5l-2 2M6.5 13.5l-2 2M15.5 15.5l-2-2M6.5 6.5l-2-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="10" r="2.8" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <div class="r-tag">01</div>
+        <h4>Initiating the program</h4>
+        <ul>
+          <li>Identified the reach gap and proposed the ambassador model as the answer</li>
+          <li>Defined the program shape: scale, fit criteria, campus mix</li>
+          <li>Built it from zero — no existing playbook or roster</li>
+        </ul>
+      </div>
+
+      <div class="resp-card fade-up delay-1">
+        <div class="r-icon"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="8" cy="7" r="3.2" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 17c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M14.5 5.5l1.5 1.5 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="r-tag">02</div>
+        <h4>Scouting &amp; recruitment</h4>
+        <ul>
+          <li>Sourced and screened candidates individually across target universities</li>
+          <li>Ran outreach and secured commitment from all 10 selected</li>
+          <li>Used the first wave as a live test of student interest</li>
+        </ul>
+      </div>
+
+      <div class="resp-card fade-up delay-2">
+        <div class="r-icon"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 5.5h12M4 10h12M4 14.5h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="16.5" cy="14.5" r="2.3" stroke="currentColor" stroke-width="1.4"/></svg></div>
+        <div class="r-tag">03</div>
+        <h4>Operations &amp; execution</h4>
+        <ul>
+          <li>Single point of contact for all ambassadors through the season</li>
+          <li>Onboarding, kit logistics, scheduling and day-to-day coordination</li>
+          <li>Synced ambassador activity with four campus events and the finale</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section id="results">
+    <div class="section-head fade-up">
+      <span class="eyebrow">04 · Results</span>
+      <h2 class="section-title">What the program <span class="accent">delivered</span></h2>
+      <p class="section-sub">
+        Aggregate performance across 51 posts with complete metrics, on two platforms.
+      </p>
+    </div>
+
+    <div class="res-summary fade-up">
+      <div class="item"><div class="v blue">118,053</div><div class="l">Total views</div></div>
+      <div class="item"><div class="v">6,388</div><div class="l">Likes</div></div>
+      <div class="item"><div class="v">567</div><div class="l">Comments</div></div>
+      <div class="item"><div class="v">960</div><div class="l">Shares</div></div>
+      <div class="item"><div class="v">8,133</div><div class="l">Total engagement</div></div>
+      <div class="item"><div class="v blue">6.89%</div><div class="l">Engagement rate</div></div>
+    </div>
+
+    <div class="panel fade-up">
+      <div class="p-title">Platform split</div>
+      <div class="p-sub">Share of total views</div>
+      <div class="split-body">
+        <div class="donut-wrap">
+          <svg width="140" height="140" viewBox="0 0 160 160">
+            <circle cx="80" cy="80" r="64" fill="none" stroke="#eef3fd" stroke-width="20"/>
+            <circle id="d1" cx="80" cy="80" r="64" fill="none" stroke="#0047ff" stroke-width="20"
+              stroke-dasharray="0 999" stroke-dashoffset="0" transform="rotate(-90 80 80)"/>
+            <circle id="d2" cx="80" cy="80" r="64" fill="none" stroke="#6a8eff" stroke-width="20"
+              stroke-dasharray="0 999" stroke-dashoffset="0" transform="rotate(-90 80 80)"/>
+          </svg>
+          <div class="donut-legend">
+            <div class="lg-item">
+              <span class="sw" style="background:#0047ff"></span>
+              <span class="lg-name">Short-form video</span>
+              <span class="lg-pct">112,185 · 95%</span>
+            </div>
+            <div class="lg-item">
+              <span class="sw" style="background:#6a8eff"></span>
+              <span class="lg-name">Social feed</span>
+              <span class="lg-pct">5,868 · 5%</span>
+            </div>
+          </div>
+        </div>
+        <div class="donut-note">
+          Short-form video carried <b>44 of 51 posts</b> and delivered <b>3× the reach per post</b>.
+          Engagement rate was near-identical across both formats (<b>6.9% vs 6.4%</b>) — the gap
+          was distribution, not resonance.
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-card fade-up">
+        <div class="c-num">17.3%</div>
+        <p><b>Peak post engagement rate.</b> Four ambassadors cleared 12% — more than 4× the social media benchmark.</p>
+      </div>
+      <div class="callout-card fade-up delay-1">
+        <div class="c-num">960</div>
+        <p><b>Organic shares.</b> Audiences forwarded the campaign to their own networks, extending reach beyond measured views.</p>
+      </div>
+      <div class="callout-card fade-up delay-2">
+        <div class="c-num">0</div>
+        <p><b>Paid amplification.</b> Every view was earned through ambassador reach and content quality alone.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SKILLS ============ -->
+  <section id="skills">
+    <div class="section-head fade-up">
+      <span class="eyebrow">05 · Skills</span>
+      <h2 class="section-title">What I took <span class="accent">from leading it</span></h2>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-card fade-up">
+        <div class="skill-head">
+          <div class="skill-ico"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="2.8" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v3M10 15v2.8M17.8 10H15M5 10H2.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <h4>Building a program from zero</h4>
+        </div>
+        <p>Turning an observed gap into a funded, staffed initiative — with no precedent to copy and no existing structure to lean on.</p>
+        <div class="evidence">First ambassador program in the organisation's history</div>
+      </div>
+
+      <div class="skill-card fade-up delay-1">
+        <div class="skill-head">
+          <div class="skill-ico"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="8" cy="7" r="3.2" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 17c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <h4>Talent identification</h4>
+        </div>
+        <p>Reading creator fit beyond follower count — relevance, authenticity and genuine willingness predicted performance far better than audience size.</p>
+        <div class="evidence">Highest-engagement creators were the <b>smallest accounts</b></div>
+      </div>
+
+      <div class="skill-card fade-up">
+        <div class="skill-head">
+          <div class="skill-ico"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 5.5h12M4 10h12M4 14.5h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <h4>Operations under a live campaign</h4>
+        </div>
+        <p>Keeping ten independent contributors on a shared timeline across 23 days — logistics, scheduling and problem-solving in real time.</p>
+        <div class="evidence"><b>56 posts</b> shipped · zero drop-offs</div>
+      </div>
+
+      <div class="skill-card fade-up delay-1">
+        <div class="skill-head">
+          <div class="skill-ico"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 2.5l2.2 4.6 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L2.8 7.8l5-.7L10 2.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+          <h4>Influence without authority</h4>
+        </div>
+        <p>Holding volunteers to commitments through clarity, responsiveness and genuine support rather than contracts or hierarchy.</p>
+        <div class="evidence">Positive engagement sustained across every activity</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<section class="thank-you fade-up">
+  <div class="ty-tag">Campus Running Ambassador Initiative</div>
+  <h2>Students listen to <span class="ty-italic">students.</span></h2>
+  <p>
+    A first-of-its-kind program that started as a question — would students actually care? — and
+    answered it in the first ten conversations.
+  </p>
+  <div class="ty-meta">
+    <div class="item"><strong>10</strong> ambassadors</div>
+    <div class="divider"></div>
+    <div class="item"><strong>118K</strong> organic views</div>
+    <div class="divider"></div>
+    <div class="item"><strong>6.89%</strong> engagement rate</div>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-brand">Campus Running Ambassador Initiative</div>
+  <div style="margin-top:8px;font-size:11px;letter-spacing:.04em;">Portfolio case study · Initiator &amp; Operations Lead</div>
+</footer>
+
+<script>
+  function animateCounter(el, target, decimals = 0, duration = 1400){
+    const start = performance.now();
+    function frame(now){
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const val = target * eased;
+      el.textContent = decimals > 0 ? val.toFixed(decimals) : Math.floor(val).toLocaleString('en-US');
+      if (t < 1) requestAnimationFrame(frame);
+      else el.textContent = decimals > 0 ? Number(target).toFixed(decimals) : Number(target).toLocaleString('en-US');
+    }
+    requestAnimationFrame(frame);
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      e.target.querySelectorAll('[data-count]').forEach(c => {
+        if (!c.dataset.done){
+          animateCounter(c, parseFloat(c.dataset.count), parseInt(c.dataset.decimals || '0', 10));
+          c.dataset.done = '1';
+        }
+      });
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+  function animateDonut(){
+    const C = 2 * Math.PI * 64;
+    const d1 = document.getElementById('d1');
+    const d2 = document.getElementById('d2');
+    const p1 = 0.950;
+    d1.style.transition = 'stroke-dasharray 1.4s cubic-bezier(.2,.8,.2,1)';
+    d2.style.transition = 'stroke-dasharray 1.4s cubic-bezier(.2,.8,.2,1) .2s';
+    d2.setAttribute('stroke-dashoffset', String(-p1 * C));
+    requestAnimationFrame(() => {
+      d1.setAttribute('stroke-dasharray', `${p1 * C} ${C}`);
+      d2.setAttribute('stroke-dasharray', `${(1 - p1) * C} ${C}`);
+    });
+  }
+  const donutObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting){ animateDonut(); donutObs.disconnect(); } });
+  }, { threshold: .3 });
+  donutObs.observe(document.getElementById('results'));
+</script>
+</body>
+</html>
